@@ -6,12 +6,22 @@ import Knight from './pieces/Knight';
 import ChessCords from './ChessCords';
 
 class Board {
-  private board: (Piece | undefined)[][];
   private SIZE: number;
+  private board: (Piece | undefined)[][];
 
   constructor() {
-    this.board = [[]];
     this.SIZE = 8;
+    this.board = new Array(this.SIZE);
+    
+    for(let i = 0; i < this.SIZE; ++i) {
+      this.board[i] = new Array(this.SIZE);
+    }
+    
+    /* this.board.forEach((_, i) => {
+      this.board[i] = new Array(this.SIZE);
+    }); */
+
+    console.log(this.board);
   }
 
   isFieldOccupied(position: Position): boolean {
@@ -38,21 +48,29 @@ class Board {
     })
   }
 
+  movePiece(from: Position, to: Position): void {
+    const piece = this.getPieceFromField(from);
+    
+    if(!piece) return;
+
+    this.board[to.x][to.y] = piece;
+    this.board[from.x][from.y] = undefined; 
+  }
+
   drawBoard(): void {
     for(let row = 0; row < this.SIZE; ++row) {
-      let rowString: string = "|";
+      let rowString: string = (this.SIZE - row) + "|";
 
       for(let col = 0; col < this.SIZE; ++col) {
         const position: Position = new Position(row, col);
 
-        if(this.isFieldOccupied(position)) {
-          const piece: Piece | undefined = this.getPieceFromField(position);
-          const pieceMarker = this.getPieceMarker(piece);
+        const piece = this.getPieceFromField(position);
 
+        if(piece) {
+          const pieceMarker = this.getPieceMarker(piece);
           rowString += pieceMarker;
-        }
-        else {
-          rowString += " ";
+        } else {
+          rowString += ".";
         }
       }
 
@@ -74,7 +92,12 @@ class Board {
     this.board[whiteKnightFirstPosition.x][whiteKnightFirstPosition.y] = new Knight(Color.White);
     this.board[whiteKnightSecondPosition.x][whiteKnightSecondPosition.y] = new Knight(Color.White);
     this.board[blackKnightFirstPosition.x][blackKnightFirstPosition.y] = new Knight(Color.Black);
-    this.board[blackKnightSecondPosition.x][blackKnightSecondPosition.y] = new Knight(Color.Black); 
+    this.board[blackKnightSecondPosition.x][blackKnightSecondPosition.y] = new Knight(Color.Black);
+
+    const moves = this.board[whiteKnightFirstPosition.x][whiteKnightFirstPosition.y]?.getMoves(whiteKnightFirstPosition);
+
+    console.log(whiteKnightFirstPosition);
+    console.log({moves});
   }
 
   private initKings(): void {

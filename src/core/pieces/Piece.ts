@@ -13,8 +13,6 @@ abstract class Piece {
   }
 
   abstract getMoves(fromPosition: Position): Move[];
-
-  // abstract filterMovesBasedOnGeneralRules(movesLegalForPiece: Move[]): Move[];
 }
 
 export default Piece;

@@ -9,24 +9,10 @@ class Knight extends Piece {
     super(color, PieceType.Knight);
   }
 
-  filterMovesBasedOnGeneralRules(movesLegalForPiece: Move[]): Move[] {
-    const moves: Move[] = [];
-
-    /* for(const move of movesLegalForPiece) {
-      if()
-      {
-        moves.push(move);
-      }
-    } */
-
-    return moves;
-  }
-
   getMoves(fromPosition: Position): Move[] {
     const movesLegalForKnight: Move[] = this.getMovesBasedOnRulesForPiece(fromPosition);
-    const moves = this.filterMovesBasedOnGeneralRules(movesLegalForKnight);
 
-    return moves;
+    return movesLegalForKnight;
   }
 
   private getMovesBasedOnRulesForPiece(fromPosition: Position): Move[] {
