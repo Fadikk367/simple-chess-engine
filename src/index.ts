@@ -1,7 +1,9 @@
-import Board from './core/Board';
+import Game from './core/Game';
 
-const board: Board = new Board();
-board.initBoard();
-board.drawBoard();
+const game = new Game();
+game.board.initBoard();
+game.board.drawBoard();
 
 console.log("Hello there");
+
+game.minimax();
