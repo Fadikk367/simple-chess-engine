@@ -4,11 +4,10 @@ import Move from './Move';
 import Knight from './pieces/Knight';
 import ChessCords from './ChessCords';
 import { Color } from 'constants/enums';
-import MoveGenerator from './MoveGenerator';
 
 class Board {
-  private moveGenerator: MoveGenerator;
-  private SIZE: number;
+  SIZE: number;
+
   private board: (Piece | undefined)[][];
 
   constructor() {
@@ -18,8 +17,12 @@ class Board {
     for(let i = 0; i < this.SIZE; ++i) {
       this.board[i] = new Array(this.SIZE);
     }
-    
-    this.moveGenerator = new MoveGenerator();
+  }
+
+  get pieces(): Piece[] {
+    return this.board.map((row) => {
+      return row.filter((piece) => !!piece) as Piece[];
+    }).flat();
   }
 
   isFieldOccupied(position: Position): boolean {
@@ -28,22 +31,6 @@ class Board {
 
   getPieceFromField(position: Position): Piece | undefined {
     return this.board[position.x][position.y];
-  }
-
-  minimax() {
-    this.board.forEach((row, i) => {
-      row.forEach((piece, j) => {
-        if (!piece) {
-          return;
-        }
-
-        const currentPosition = new Position(i, j);
-        const moves = piece.getMoves(currentPosition);
-        const validMoves = moves.filter(this.isValidMove);
-
-        // rekurencyjne wywołania dla poprawnych ruchów
-      })
-    })
   }
 
   movePiece(from: Position, to: Position): void {
@@ -87,15 +74,10 @@ class Board {
     const blackKnightFirstPosition: Position = this.chessCordsToPosition(new ChessCords(8, 'b'));
     const blackKnightSecondPosition: Position = this.chessCordsToPosition(new ChessCords(8, 'g'));
 
-    this.board[whiteKnightFirstPosition.x][whiteKnightFirstPosition.y] = new Knight(Color.White);
-    this.board[whiteKnightSecondPosition.x][whiteKnightSecondPosition.y] = new Knight(Color.White);
-    this.board[blackKnightFirstPosition.x][blackKnightFirstPosition.y] = new Knight(Color.Black);
-    this.board[blackKnightSecondPosition.x][blackKnightSecondPosition.y] = new Knight(Color.Black);
-
-    const moves = this.board[whiteKnightFirstPosition.x][whiteKnightFirstPosition.y]?.getMoves(whiteKnightFirstPosition);
-
-    console.log(whiteKnightFirstPosition);
-    console.log({moves});
+    this.board[whiteKnightFirstPosition.x][whiteKnightFirstPosition.y] = new Knight(Color.White, whiteKnightFirstPosition);
+    this.board[whiteKnightSecondPosition.x][whiteKnightSecondPosition.y] = new Knight(Color.White, whiteKnightSecondPosition);
+    this.board[blackKnightFirstPosition.x][blackKnightFirstPosition.y] = new Knight(Color.Black, blackKnightFirstPosition);
+    this.board[blackKnightSecondPosition.x][blackKnightSecondPosition.y] = new Knight(Color.Black, blackKnightSecondPosition);
   }
 
   private initKings(): void {
@@ -163,15 +145,3 @@ class Board {
 }
 
 export default Board;
-
-class MoveValidator {
-  board: Board;
-
-  constructor(board: Board) {
-    this.board = board;
-  }
-
-  isWithinBoard(position: Position): boolean {
-    return true;
-  }
-}
