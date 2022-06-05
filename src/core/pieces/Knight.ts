@@ -1,12 +1,12 @@
-import { Color, PieceType } from '../../constants/enums';
-import Board from '../Board';
-import Move from '../Move';
-import Position from '../Position';
+import { Color, PieceType, MoveType } from 'constants/enums';
+import Move from 'core/Move';
+import Position from 'core/Position';
 import Piece from './Piece';
 
 class Knight extends Piece {
+  static knightMoveTypes = [MoveType.LMove]
   constructor(color: Color) {
-    super(color, PieceType.Knight);
+    super(color, PieceType.Knight, Knight.knightMoveTypes);
   }
 
   getMoves(fromPosition: Position): Move[] {

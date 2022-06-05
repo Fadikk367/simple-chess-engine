@@ -1,9 +1,9 @@
 import Piece from './pieces/Piece';
 import Position from './Position';
 import Move from './Move';
-import { Color } from '../constants/enums';
 import Knight from './pieces/Knight';
 import ChessCords from './ChessCords';
+import { MoveType, Color } from 'constants/enums';
 
 class Board {
   private SIZE: number;
@@ -162,6 +162,47 @@ class Board {
 
     return true;
   }
+
+  private generateMoves(piece: Piece, position: Position, type: MoveType): Move[] {
+    switch(type) {
+      case MoveType.Horizontal:
+        return MoveGenerator.generateHorizontalMoves(piece, position);
+      case MoveType.Vertical:
+        return MoveGenerator.generateVerticalMoves(piece, position);
+      case MoveType.Diagonal:
+        return MoveGenerator.generateDiagonalMoves(piece, position);
+      case MoveType.LMove:
+        return MoveGenerator.generateLMoves(piece, position);
+      
+    }
+  }
 }
 
 export default Board;
+
+class MoveGenerator {
+  static generateHorizontalMoves(piece: Piece, poisition: Position): Move[] {
+
+  }
+
+  static generateVerticalMoves(piece: Piece, poisition: Position): Move[] {
+    
+  }
+
+  static generateDiagonalMoves(piece: Piece, poisition: Position): Move[] {
+    
+  }
+
+  static generateLMoves(piece: Piece, poisition: Position): Move[] {
+    
+  }
+}
+
+class MoveValidator {
+  board: Board;
+  isWithinBoard(position: Position): boolean {
+
+  }
+
+  isCapture
+}
