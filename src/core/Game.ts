@@ -1,6 +1,5 @@
 import Board from "./Board";
 import MoveGenerator from "./MoveGenerator";
-import MoveValidator from "./MoveValidator";
 
 class Game {
   board: Board;
