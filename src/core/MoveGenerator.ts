@@ -33,15 +33,23 @@ class MoveGenerator {
   }
 
   private generateHorizontalMoves(piece: Piece, constraints?: MoveConstraints): Move[] {
-    return [];
+    const leftMoves = this.generateContinousMoves({piece, horizontal: true, horizontalDirection: -1, constraints});
+    const rightMoces = this.generateContinousMoves({piece, horizontal: true, horizontalDirection: 1, constraints});
+    return [...leftMoves, ...rightMoces];
   }
 
   private generateVerticalMoves(piece: Piece, constraints?: MoveConstraints): Move[] {
-    return [];
+    const upMoves = this.generateContinousMoves({piece, vertical: true, verticalDirection: -1, constraints});
+    const downMoces = this.generateContinousMoves({piece, vertical: true, verticalDirection: 1, constraints});
+    return [...upMoves, ...downMoces];
   }
 
   private generateDiagonalMoves(piece: Piece, constraints?: MoveConstraints): Move[] {
-    return [];
+    const upLeftMoves = this.generateContinousMoves({piece, vertical: true, horizontal: true, verticalDirection: -1, horizontalDirection: -1, constraints});
+    const upRigtMoves = this.generateContinousMoves({piece, vertical: true, horizontal: true, verticalDirection: 1, horizontalDirection: -1, constraints});
+    const downLeftMoves = this.generateContinousMoves({piece, vertical: true, horizontal: true, verticalDirection: -1, horizontalDirection: 1, constraints});
+    const downRightMoves = this.generateContinousMoves({piece, vertical: true, horizontal: true, verticalDirection: 1, horizontalDirection: 1, constraints});
+    return [...upLeftMoves, ...upRigtMoves, ...downLeftMoves, ...downRightMoves];
   }
 
   private generateLMoves(piece: Piece): Move[] {
@@ -57,6 +65,55 @@ class MoveGenerator {
     ];
 
     return movesCandidates.filter((move) => this.validator.isValidMove(piece, move));
+  }
+
+  private generateContinousMoves({
+    piece, 
+    vertical = false, 
+    horizontal = false,
+    horizontalDirection = 1, 
+    verticalDirection = 1, 
+    constraints
+  }: {
+    piece: Piece, 
+    vertical?: boolean, 
+    horizontal?: boolean,
+    horizontalDirection?: 1 | -1, 
+    verticalDirection?: 1 | -1, 
+    constraints?: MoveConstraints
+  }): Move[] {
+    const continuousMoves: Move[] = [];
+    let offset = 1;
+  
+    while (true) {
+      if (constraints?.max && offset > constraints.max) {
+        break;
+      }
+  
+      const position = new Position(piece.position.x, piece.position.y);
+
+      if (vertical) {
+        position.x += offset * verticalDirection;
+      }
+
+      if (horizontal) {
+        position.y += offset * horizontalDirection;
+      }
+
+      const moveCandidate = new Move(new Position(piece.position.x, piece.position.y), position);
+      if (!this.validator.isValidMove(piece, moveCandidate)) {
+        break;
+      }
+
+      continuousMoves.push(moveCandidate);
+      offset++;
+
+      if (moveCandidate.isCapture) {
+        break;
+      }
+    }
+
+    return continuousMoves;
   }
 }
 

@@ -2,6 +2,7 @@ import Move from "./Move";
 import Piece from "./pieces/Piece";
 import Position from "./Position";
 import type Board from "./Board";
+import { PieceType } from "constants/enums";
 
 class MoveValidator {
   board: Board;
@@ -19,13 +20,15 @@ class MoveValidator {
     if (obstaclePiece) {
       if (obstaclePiece.color === piece.color) {
         return false;
+      } else {
+        move.isCapture = true;
       }
     }
 
     return true;
   }
 
-  private isWithinBoard(position: Position): boolean {
+  isWithinBoard(position: Position): boolean {
     return (
       (position.x >= 0 && position.x < this.board.SIZE) &&
       (position.y >= 0 && position.y < this.board.SIZE)
