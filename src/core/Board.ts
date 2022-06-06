@@ -1,7 +1,7 @@
 import Piece from './pieces/Piece';
 import Position from './Position';
 import Move from './Move';
-import { Color } from 'constants/enums';
+import { Color, PieceType } from 'constants/enums';
 import BoardInitializer from './BoardInitializer';
 
 class Board {
@@ -72,7 +72,20 @@ class Board {
   }
 
   private getPieceMarker(piece: Piece): string {
-    let marker: string = piece.type.toString().charAt(0);
+    const pieceToMarker = new Map([
+      [PieceType.Pawn, 'P'],
+      [PieceType.Knight, 'N'],
+      [PieceType.Queen, 'Q'],
+      [PieceType.King, 'K'],
+      [PieceType.Bishop, 'B'],
+      [PieceType.Rook, 'R']
+    ])
+
+    let marker: (string|undefined) = pieceToMarker.get(piece.type);
+
+    if(!marker) {
+      throw Error("Unexpected situation -> piece type not recognised");
+    }
 
     if(piece.color != Color.White) {
       marker = marker.toLowerCase();
