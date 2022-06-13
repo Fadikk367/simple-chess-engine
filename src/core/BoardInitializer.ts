@@ -1,6 +1,7 @@
 import { Color } from "constants/enums";
 import Board from "./Board";
 import ChessCords from "./ChessCords";
+import King from "./pieces/King";
 import Bishop from "./pieces/Bishop";
 import Knight from "./pieces/Knight";
 import Pawn from "./pieces/Pawn";
@@ -12,16 +13,17 @@ class BoardInitializer {
   static init(board: Board): void {
     this.initPawns(board);
     this.initKnights(board);
+    this.initKings(board);
     this.initQueens(board);
     this.initBishops(board);
     this.initRooks(board);
   }
 
   private static initKnights(board: Board): void {
-    const whiteKnightFirstPosition: Position = this.chessCordsToPosition(new ChessCords(1, 'b'));
-    const whiteKnightSecondPosition: Position = this.chessCordsToPosition(new ChessCords(1, 'g'));
-    const blackKnightFirstPosition: Position = this.chessCordsToPosition(new ChessCords(8, 'b'));
-    const blackKnightSecondPosition: Position = this.chessCordsToPosition(new ChessCords(8, 'g'));
+    const whiteKnightFirstPosition = this.chessCordsToPosition(new ChessCords(1, 'b'));
+    const whiteKnightSecondPosition = this.chessCordsToPosition(new ChessCords(1, 'g'));
+    const blackKnightFirstPosition = this.chessCordsToPosition(new ChessCords(8, 'b'));
+    const blackKnightSecondPosition = this.chessCordsToPosition(new ChessCords(8, 'g'));
 
     board.placePiece(new Knight(Color.White, whiteKnightFirstPosition), whiteKnightFirstPosition);
     board.placePiece(new Knight(Color.White, whiteKnightSecondPosition), whiteKnightSecondPosition);
@@ -29,11 +31,12 @@ class BoardInitializer {
     board.placePiece(new Knight(Color.Black, blackKnightSecondPosition), blackKnightSecondPosition);
   }
 
-  private static initKings(): void {
-    /*const whiteKingPosition: Position = this.chessCordsToPosition(new ChessCords(1, 'e'));
-    const blackKingPosition: Position = this.chessCordsToPosition(new ChessCords(8, 'e'));
+  private static initKings(board: Board): void {
+    const whiteKingPosition = this.chessCordsToPosition(new ChessCords(1, 'e'));
+    const blackKingPosition = this.chessCordsToPosition(new ChessCords(8, 'e'));
 
-    this.board[whiteKingPosition.x][whiteKingPosition.y] = */
+    board.placePiece(new King(Color.White, whiteKingPosition), whiteKingPosition);
+    board.placePiece(new King(Color.Black, blackKingPosition), blackKingPosition);
   }
 
   private static initQueens(board: Board): void {
