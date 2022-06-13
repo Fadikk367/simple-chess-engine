@@ -34,22 +34,22 @@ class MoveGenerator {
 
   private generateHorizontalMoves(piece: Piece, constraints?: MoveConstraints): Move[] {
     const leftMoves = this.generateContinousMoves({piece, horizontal: true, horizontalDirection: -1, constraints});
-    const rightMoces = this.generateContinousMoves({piece, horizontal: true, horizontalDirection: 1, constraints});
-    return [...leftMoves, ...rightMoces];
+    const rightMoves = this.generateContinousMoves({piece, horizontal: true, horizontalDirection: 1, constraints});
+    return [...leftMoves, ...rightMoves];
   }
 
   private generateVerticalMoves(piece: Piece, constraints?: MoveConstraints): Move[] {
     const upMoves = this.generateContinousMoves({piece, vertical: true, verticalDirection: -1, constraints});
-    const downMoces = this.generateContinousMoves({piece, vertical: true, verticalDirection: 1, constraints});
-    return [...upMoves, ...downMoces];
+    const downMoves = this.generateContinousMoves({piece, vertical: true, verticalDirection: 1, constraints});
+    return [...upMoves, ...downMoves];
   }
 
   private generateDiagonalMoves(piece: Piece, constraints?: MoveConstraints): Move[] {
     const upLeftMoves = this.generateContinousMoves({piece, vertical: true, horizontal: true, verticalDirection: -1, horizontalDirection: -1, constraints});
-    const upRigtMoves = this.generateContinousMoves({piece, vertical: true, horizontal: true, verticalDirection: 1, horizontalDirection: -1, constraints});
+    const upRightMoves = this.generateContinousMoves({piece, vertical: true, horizontal: true, verticalDirection: 1, horizontalDirection: -1, constraints});
     const downLeftMoves = this.generateContinousMoves({piece, vertical: true, horizontal: true, verticalDirection: -1, horizontalDirection: 1, constraints});
     const downRightMoves = this.generateContinousMoves({piece, vertical: true, horizontal: true, verticalDirection: 1, horizontalDirection: 1, constraints});
-    return [...upLeftMoves, ...upRigtMoves, ...downLeftMoves, ...downRightMoves];
+    return [...upLeftMoves, ...upRightMoves, ...downLeftMoves, ...downRightMoves];
   }
 
   private generateLMoves(piece: Piece): Move[] {
