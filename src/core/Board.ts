@@ -1,8 +1,8 @@
 import Piece from './pieces/Piece';
 import Position from './Position';
 import Move from './Move';
-import { Color } from 'constants/enums';
 import BoardInitializer from './BoardInitializer';
+import { pieceToMarker } from 'constants/types';
 
 class Board {
   SIZE: number;
@@ -72,13 +72,7 @@ class Board {
   }
 
   private getPieceMarker(piece: Piece): string {
-    let marker: string = piece.type.toString().charAt(0);
-
-    if(piece.color != Color.White) {
-      marker = marker.toLowerCase();
-    }
-
-    return marker;
+    return pieceToMarker[piece.color][piece.type];
   }
 
   private isValidMove(move: Move): boolean {
