@@ -18,3 +18,19 @@ export enum MoveType {
   Diagonal = 'DIAGONAL',
   LMove = 'L_MOVE',
 }
+
+export enum PieceValue {
+  Pawn = 1,
+  Bishop = 3,
+  Knight = 3,
+  King = 4,
+  Rook = 5,
+  Queen = 9
+}
+
+export enum BoardState {
+  Check = 'CHECK',
+  Checkmate = 'CHECKMATE',
+  Stalemate = 'STALEMATE',
+  Default = 'DEFAULT'
+}

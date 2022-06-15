@@ -32,7 +32,7 @@ class BoardInitializer {
   }
 
   private static initKings(board: Board): void {
-    const whiteKingPosition = this.chessCordsToPosition(new ChessCords(1, 'e'));
+    const whiteKingPosition = this.chessCordsToPosition(new ChessCords(3, 'a'));
     const blackKingPosition = this.chessCordsToPosition(new ChessCords(8, 'e'));
 
     board.placePiece(new King(Color.White, whiteKingPosition), whiteKingPosition);

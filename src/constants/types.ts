@@ -1,4 +1,4 @@
-import { Color, PieceType } from "./enums";
+import { Color, PieceType, PieceValue } from "./enums";
 
 export const pieceToMarker = {
     [Color.White]: {
@@ -18,3 +18,12 @@ export const pieceToMarker = {
         [PieceType.Rook]: 'r',
     }
 } as const;
+
+export const pieceToValue = {
+    [PieceType.Pawn]: PieceValue.Pawn,
+    [PieceType.Knight]: PieceValue.Knight,
+    [PieceType.Queen]: PieceValue.Queen,
+    [PieceType.King]: PieceValue.King,
+    [PieceType.Bishop]: PieceValue.Bishop,
+    [PieceType.Rook]: PieceValue.Rook
+}
