@@ -8,6 +8,7 @@ import Pawn from "./pieces/Pawn";
 import Queen from "./pieces/Queen";
 import Rook from "./pieces/Rook";
 import Position from "./Position";
+import { parseFen } from "./parsers/fen";
 
 class BoardInitializer {
   static init(board: Board): void {
@@ -17,6 +18,14 @@ class BoardInitializer {
     this.initQueens(board);
     this.initBishops(board);
     this.initRooks(board);
+  }
+
+  static fromFen(fen: string, board: Board): void {
+    const pieces = parseFen(fen);
+
+    pieces.forEach((piece) => {
+      board.placePiece(piece, piece.position);
+    })
   }
 
   private static initKnights(board: Board): void {

@@ -67,8 +67,12 @@ class Board {
     }
   }
 
-  initBoard(): void {
-    BoardInitializer.init(this);
+  initBoard(fen?: string): void {
+    if (fen) {
+      BoardInitializer.fromFen(fen, this);
+    } else {
+      BoardInitializer.init(this);
+    }
   }
 
   private getPieceMarker(piece: Piece): string {
