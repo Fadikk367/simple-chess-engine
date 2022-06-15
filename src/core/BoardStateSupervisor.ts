@@ -27,7 +27,6 @@ class BoardStateSupervisor {
 
     private updateState(consideredKingColor: Color): void {
         if(this.meetsCheckConditions(consideredKingColor)) {
-            console.log("AHOOOOOOJ PANE KRETO!");
             this.state = BoardState.Check;
         }
     }

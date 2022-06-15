@@ -24,6 +24,7 @@ class Game {
       console.log({piece, moves});
     });
 
+    // Testing -> as for now we need to pass color of king which will be considered to be under check
     this.boardStateSupervisor.updateBoard(this.board);
     console.log(this.boardStateSupervisor.getBoardState(Color.White));
   }
