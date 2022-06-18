@@ -26,4 +26,4 @@ export const pieceToValue = {
     [PieceType.King]: PieceValue.King,
     [PieceType.Bishop]: PieceValue.Bishop,
     [PieceType.Rook]: PieceValue.Rook
-}
+} as const;

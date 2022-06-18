@@ -28,7 +28,7 @@ export enum PieceValue {
   Queen = 9
 }
 
-export enum BoardState {
+export enum GameState {
   Check = 'CHECK',
   Checkmate = 'CHECKMATE',
   Stalemate = 'STALEMATE',

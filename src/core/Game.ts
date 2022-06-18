@@ -1,17 +1,19 @@
 import { Color } from "constants/enums";
 import Board from "./Board";
-import BoardStateSupervisor from "./BoardStateSupervisor";
+import GameStateManager from "./GameStateManager";
+import Move from "./Move";
 import MoveGenerator from "./MoveGenerator";
+import King from "./pieces/King";
 
 class Game {
   board: Board;
   moveGenerator: MoveGenerator;
-  boardStateSupervisor: BoardStateSupervisor;
+  gameStateManager: GameStateManager;
 
   constructor() {
     this.board = new Board();
     this.moveGenerator = new MoveGenerator(this.board);
-    this.boardStateSupervisor = new BoardStateSupervisor(this.board, this.moveGenerator);
+    this.gameStateManager = new GameStateManager(this.board, this.moveGenerator);
   }
 
   minimax() {
@@ -25,8 +27,9 @@ class Game {
     });
 
     // Testing -> as for now we need to pass color of king which will be considered to be under check
-    this.boardStateSupervisor.updateBoard(this.board);
-    console.log(this.boardStateSupervisor.getBoardState(Color.White));
+    const king: King = this.board.findKing(Color.White);
+    const enemyMoves: Move[] = this.moveGenerator.generateForColor(Color.Black);
+    console.log(this.gameStateManager.getBoardState(king, enemyMoves));
   }
 }
 

@@ -3,6 +3,8 @@ import Position from './Position';
 import Move from './Move';
 import BoardInitializer from './BoardInitializer';
 import { pieceToMarker } from 'constants/types';
+import { Color, PieceType } from 'constants/enums';
+import King from './pieces/King';
 
 class Board {
   SIZE: number;
@@ -69,6 +71,31 @@ class Board {
 
   initBoard(): void {
     BoardInitializer.init(this);
+  }
+
+  findKing(color: Color): King {
+    const pieces = this.pieces;
+
+    for(const piece of pieces) {
+        if(piece.color == color && piece.type == PieceType.King) {
+            return piece;
+        }
+    }
+
+    throw new Error("Unexpected situation -> king with given color not found!");
+  }
+
+  getPiecesForColor(color: Color): Piece[] {
+    const pieces = this.pieces;
+    const colorPieces: Piece[] = []
+
+    for(const piece of pieces) {
+        if(piece.color === color) {
+            colorPieces.push(piece);
+        }
+    }
+
+    return colorPieces;
   }
 
   private getPieceMarker(piece: Piece): string {
