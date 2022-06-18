@@ -74,28 +74,17 @@ class Board {
   }
 
   findKing(color: Color): King {
-    const pieces = this.pieces;
+    const king = this.pieces.find(piece => piece.type === PieceType.King && piece.color === color)
 
-    for(const piece of pieces) {
-        if(piece.color == color && piece.type == PieceType.King) {
-            return piece;
-        }
+    if (!king) {
+      throw new Error("Unexpected situation -> king with given color not found!");
     }
 
-    throw new Error("Unexpected situation -> king with given color not found!");
+    return king;
   }
 
   getPiecesForColor(color: Color): Piece[] {
-    const pieces = this.pieces;
-    const colorPieces: Piece[] = []
-
-    for(const piece of pieces) {
-        if(piece.color === color) {
-            colorPieces.push(piece);
-        }
-    }
-
-    return colorPieces;
+    return this.pieces.filter(piece => piece.color === color);
   }
 
   private getPieceMarker(piece: Piece): string {

@@ -1,7 +1,6 @@
 import { GameState } from "constants/enums";
 import Board from "./Board";
 import Move from "./Move";
-import MoveGenerator from "./MoveGenerator";
 import King from "./pieces/King";
 
 class GameStateManager {
