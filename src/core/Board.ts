@@ -69,8 +69,18 @@ class Board {
     }
   }
 
-  initBoard(): void {
-    BoardInitializer.init(this);
+  initBoard(fen?: string): void {
+    if (fen) {
+      try {
+        BoardInitializer.fromFen(this, fen);
+      } catch (err) {
+        console.error((err as Error).message);
+        console.log('Using default board initialization...');
+        BoardInitializer.init(this);
+      }
+    } else {
+      BoardInitializer.init(this);
+    }
   }
 
   findKing(color: Color): King {
