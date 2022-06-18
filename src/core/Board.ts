@@ -69,7 +69,13 @@ class Board {
 
   initBoard(fen?: string): void {
     if (fen) {
-      BoardInitializer.fromFen(this, fen);
+      try {
+        BoardInitializer.fromFen(this, fen);
+      } catch (err) {
+        console.error((err as Error).message);
+        console.log('Using default board initialization...');
+        BoardInitializer.init(this);
+      }
     } else {
       BoardInitializer.init(this);
     }
