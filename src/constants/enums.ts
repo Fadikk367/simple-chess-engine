@@ -34,3 +34,8 @@ export enum GameState {
   Stalemate = 'STALEMATE',
   Default = 'DEFAULT'
 }
+
+export enum PlayerType {
+  Human = 'HUMAN',
+  Ai = 'AI',
+}
