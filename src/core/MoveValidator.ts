@@ -2,7 +2,7 @@ import Move from "./Move";
 import Piece from "./pieces/Piece";
 import Position from "./Position";
 import type Board from "./Board";
-import { PieceType } from "constants/enums";
+import { Color, PieceType } from "constants/enums";
 
 class MoveValidator {
   board: Board;
@@ -29,9 +29,11 @@ class MoveValidator {
     /* It might be indeed done in a more generic way, but we need it only for a pawn and this is the simplest I found */    
     if(piece.type === PieceType.Pawn) {
       /* Check if pawn's diagonal move is leading to capture (only allowed) */
-      if((this.isNotStraightMove(move) && !move.isCapture) || (!this.isNotStraightMove(move) && move.isCapture)) {
+      /* Also check if there is no move backwards (depending on color), because pawn cannot move backwards */
+      if((this.isNotStraightMove(move) && !move.isCapture) || (!this.isNotStraightMove(move) && move.isCapture) ||
+      ((piece.color === Color.White && move.to.x >= move.from.x) || (piece.color === Color.Black && move.to.x <= move.from.x))) {
         return false;
-      } 
+      }
     }
 
     return true;
@@ -46,7 +48,7 @@ class MoveValidator {
 
   private isNotStraightMove(move: Move): boolean {
     /* if both cords differ then move is neither horizontal nor vertical */
-    return move.from.x !== move.to.x && move.from.y !== move.to.y;
+    return (move.from.x !== move.to.x) && (move.from.y !== move.to.y);
   }
 }
 
