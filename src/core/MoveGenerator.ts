@@ -1,4 +1,4 @@
-import { MoveType } from "constants/enums";
+import { Color, MoveType } from "constants/enums";
 import Board from "./Board";
 import Move from "./Move";
 import MoveConstraints from "./MoveConstraints";
@@ -13,6 +13,18 @@ class MoveGenerator {
   constructor(board: Board) {
     this.board = board;
     this.validator = new MoveValidator(board);
+  }
+
+  generateForColor(color: Color) {
+    const pieces: Piece[] = this.board.getPiecesForColor(color);
+    let movesForColor: Move[] = [];
+  
+    for(const piece of pieces) {
+      const moves: Move[] = this.generate(piece);
+      movesForColor = movesForColor.concat(moves);
+    }
+  
+    return movesForColor;
   }
 
   generate(piece: Piece): Move[] {
