@@ -13,7 +13,7 @@ class Game {
   constructor() {
     this.board = new Board();
     this.moveGenerator = new MoveGenerator(this.board);
-    this.gameStateManager = new GameStateManager(this.board, this.moveGenerator);
+    this.gameStateManager = new GameStateManager(this.board);
   }
 
   minimax() {

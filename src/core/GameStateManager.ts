@@ -7,12 +7,10 @@ import King from "./pieces/King";
 class GameStateManager {
     board: Board;
     state: GameState;
-    moveGenerator: MoveGenerator;
 
-    constructor(board: Board, moveGenerator: MoveGenerator) {
+    constructor(board: Board) {
         this.board = board;
         this.state = GameState.Default;
-        this.moveGenerator = moveGenerator;
     }
 
     getBoardState(king: King, enemyMoves: Move[]): GameState {
