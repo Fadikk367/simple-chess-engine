@@ -9,12 +9,11 @@ class Pawn extends Piece {
   afterFirstMove: boolean;
 
   constructor(color: Color, position: Position) {
-    super(color, PieceType.Pawn, [new MovePolicy(MoveType.Vertical, new MoveConstraints({max: 2}))], position);
-    this.afterFirstMove = false;
-  }
+    const movePolicies = [new MovePolicy(MoveType.Vertical, new MoveConstraints({max: 2})),
+                          new MovePolicy(MoveType.Diagonal, new MoveConstraints( {max: 1} ))]
 
-  setMovePolicies(movePolicies: MovePolicy[]) {
-      this.movePolicies = movePolicies;
+    super(color, PieceType.Pawn, movePolicies, position);
+    this.afterFirstMove = false;
   }
 }
 
