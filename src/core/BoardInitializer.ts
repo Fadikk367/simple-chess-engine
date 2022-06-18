@@ -8,7 +8,7 @@ import Pawn from "./pieces/Pawn";
 import Queen from "./pieces/Queen";
 import Rook from "./pieces/Rook";
 import Position from "./Position";
-import { parseFen } from "./parsers/fen";
+import { parseFenString } from "./parsers/fen";
 
 class BoardInitializer {
   static init(board: Board): void {
@@ -20,8 +20,10 @@ class BoardInitializer {
     this.initRooks(board);
   }
 
-  static fromFen(fen: string, board: Board): void {
-    const pieces = parseFen(fen);
+  static fromFen(board: Board, fen: string): void {
+    const {pieces, activeColor} = parseFenString(fen);
+    // TODO: Handle activeColor
+    console.log({activeColor});
 
     pieces.forEach((piece) => {
       board.placePiece(piece, piece.position);

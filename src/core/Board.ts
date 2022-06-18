@@ -69,7 +69,7 @@ class Board {
 
   initBoard(fen?: string): void {
     if (fen) {
-      BoardInitializer.fromFen(fen, this);
+      BoardInitializer.fromFen(this, fen);
     } else {
       BoardInitializer.init(this);
     }
