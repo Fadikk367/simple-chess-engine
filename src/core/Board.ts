@@ -50,7 +50,7 @@ class Board {
 
     /* limit move policies to one step forward */
     if(piece.type === PieceType.Pawn) {
-      const movePolicies = [new MovePolicy(MoveType.Vertical, new MoveConstraints({max: 2})),
+      const movePolicies = [new MovePolicy(MoveType.Vertical, new MoveConstraints({max: 1})),
         new MovePolicy(MoveType.Diagonal, new MoveConstraints( {max: 1} ))]
       piece.updatePolicies(movePolicies);
     }
