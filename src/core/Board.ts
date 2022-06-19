@@ -42,13 +42,23 @@ class Board {
 
   movePiece(from: Position, to: Position): void {
     const piece = this.getPieceFromField(from);
+    const possibleCapturedPiece = this.getPieceFromField(to);
+
+    /* Removing captured piece from pieces */
+    if(possibleCapturedPiece) {
+      const indexToRemove: number = this.pieces.findIndex((el) => el === possibleCapturedPiece);
+      this.pieces.splice(indexToRemove, 1);
+    }
     
     if(!piece) return;
 
     this.board[to.x][to.y] = piece;
-    this.board[from.x][from.y] = undefined; 
+    this.board[from.x][from.y] = undefined;
 
-    /* limit move policies to one step forward */
+    /* we need to move piece, changing graphics is not enough */
+    piece.position = to;
+
+    /* limit move policies to one step forward for a pawn*/
     if(piece.type === PieceType.Pawn) {
       const movePolicies = [new MovePolicy(MoveType.Vertical, new MoveConstraints({max: 1})),
         new MovePolicy(MoveType.Diagonal, new MoveConstraints( {max: 1} ))]

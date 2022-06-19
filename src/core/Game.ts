@@ -17,7 +17,7 @@ class Game {
   constructor({players}: {players: [Player, Player]}) {
     this.board = new Board();
     this.moveGenerator = new MoveGenerator(this.board);
-    this.gameStateManager = new GameStateManager(this.board);
+    this.gameStateManager = new GameStateManager(this.moveGenerator);
 
     this.playerA = players[0];
     this.playerB = players[1];
@@ -64,9 +64,9 @@ class Game {
     });
 
     // Testing -> as for now we need to pass color of king which will be considered to be under check
-    const king: King = this.board.findKing(Color.White);
-    const enemyMoves: Move[] = this.moveGenerator.generateForColor(Color.Black);
-    console.log(this.gameStateManager.getBoardState(king, enemyMoves));
+    const king: King = this.board.findKing(Color.Black);
+    
+    console.log(this.gameStateManager.getBoardState(this.board, king));
   }
 
   private toggleActivePlayer(): void {
