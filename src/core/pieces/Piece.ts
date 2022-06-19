@@ -18,6 +18,10 @@ abstract class Piece {
     this.position = position;
     this.value = pieceToValue[this.type];
   }
+
+  updatePolicies(movePolicies: MovePolicy[]) {
+    this.movePolicies = movePolicies;
+  }
 }
 
 export default Piece;

@@ -3,8 +3,10 @@ import Position from './Position';
 import Move from './Move';
 import BoardInitializer from './BoardInitializer';
 import { pieceToMarker } from 'constants/types';
-import { Color, PieceType } from 'constants/enums';
+import { Color, MoveType, PieceType } from 'constants/enums';
 import King from './pieces/King';
+import MovePolicy from './MovePolicy';
+import MoveConstraints from './MoveConstraints';
 
 class Board {
   SIZE: number;
@@ -45,6 +47,13 @@ class Board {
 
     this.board[to.x][to.y] = piece;
     this.board[from.x][from.y] = undefined; 
+
+    /* limit move policies to one step forward */
+    if(piece.type === PieceType.Pawn) {
+      const movePolicies = [new MovePolicy(MoveType.Vertical, new MoveConstraints({max: 1})),
+        new MovePolicy(MoveType.Diagonal, new MoveConstraints( {max: 1} ))]
+      piece.updatePolicies(movePolicies);
+    }
   }
 
   drawBoard(): void {

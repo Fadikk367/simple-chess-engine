@@ -1,4 +1,4 @@
-import { Color, PieceType } from "constants/enums";
+import { Color, MoveType, PieceType } from "constants/enums";
 import Position from "../Position";
 import Bishop from "./Bishop";
 import King from "./King";
