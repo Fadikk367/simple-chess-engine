@@ -1,5 +1,4 @@
 import { Color, PlayerType } from "constants/enums";
-import Move from "core/Move";
 
 abstract class Player {
   type: PlayerType;
@@ -9,8 +8,6 @@ abstract class Player {
     this.type = type;
     this.color = color;
   }
-
-  abstract nextMove(): Move;
 }
 
 export default Player;
