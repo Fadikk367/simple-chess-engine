@@ -1,3 +1,5 @@
+
+
 import { Color } from './constants/enums';
 import Game from './core/Game';
 import AiPlayer from './core/players/AiPlayer';
@@ -9,10 +11,6 @@ const playerB = new HumanPlayer(Color.Black);
 const playerA = new AiPlayer(Color.White);
 
 const game = new Game({players: [playerA, playerB]});
-game.board.initBoard(fen);
+game.play();
 game.board.drawBoard();
 
-console.log("Hello there");
-
-// game.minimax();
-game.play();
