@@ -152,7 +152,7 @@ class Game {
         alfa = Math.max(alfa, currentResult.value);
 
         if(beta <= alfa) {
-          break;
+          // break;
         }
   
         /* Update only if move leads to node with better evaluation */
@@ -230,7 +230,7 @@ class Game {
               beta = Math.min(beta, currentResult.value);
 
               if(beta <= alfa) {
-                break;
+                // break;
               }
       
             /* And update own best move, but only if it leads to node where enemy cant play something better than before. */
