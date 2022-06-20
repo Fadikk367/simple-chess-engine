@@ -5,7 +5,17 @@ import Move from "./Move";
 import MoveGenerator from "./MoveGenerator";
 import King from "./pieces/King";
 import Piece from "./pieces/Piece";
+import HumanPlayer from "./players/HumanPlayer";
 import Player from "./players/Player";
+import Position from "./Position";
+
+const board = document.querySelector('chess-board')! as Element & {
+  start(): void; 
+  setPosition(s: string): void; 
+  move(p: string): void;
+};
+
+const nextTurnBtn = document.getElementById('next')!;
 
 const _ = require('lodash');
 class Game {
@@ -26,8 +36,9 @@ class Game {
     this.playerB = players[1];
 
     this.activePlayer = this.playerA.color === Color.White ? this.playerA : this.playerB;
-  
+
     this.depth = 3;
+    nextTurnBtn.addEventListener('click', this.nextTurn);
   }
 
   get state(): GameState {
