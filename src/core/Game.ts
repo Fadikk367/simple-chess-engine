@@ -45,59 +45,61 @@ class Game {
     return this.gameStateManager.state;
   }
 
-  play(): void {
-    //do {
+  play(fen?: string): void {
+    this.board.initBoard(fen);
+    if (fen) {
+      board.setPosition(fen);
+    } else {
+      board.start();
+    }
 
-      console.log(this.activePlayer);
-      console.log(this.playerA);
-      switch(this.activePlayer.type) {
-        case PlayerType.Human: {
-          console.log('Wait for input from chessboard gui...');
-          break;
-        }
-        case PlayerType.Ai: {
-          const bestResult: {move: Move, value: number} = this.minimax(4);
-          console.log(bestResult);
-          this.board.movePiece(bestResult.move.from, bestResult.move.to);
-          break;
-        }
-      }
-      this.toggleActivePlayer();
-    //} while (this.state !== GameState.Checkmate && this.state !== GameState.Stalemate);
+    this.nextTurn();
   }
 
   minimax(depth: number): {move: Move, value: number} {
-      this.depth = 1;
-      const moves = this.moveGenerator.generateForColor(this.activePlayer.color);
+    this.depth = 3;
+    const moves = this.moveGenerator.generateForColor(Color.White);
 
-      if(this.activePlayer.color === Color.White) {
-        /* For white player maximise function */
-        return this.max({
-          counter: 1,
-          board: this.board,
-          allowedMoves: moves,
-          alfa: -Infinity,
-          beta: Infinity
+    // if(this.activePlayer.color === Color.White) {
+      /* For white player maximise function */
+      return this.max({
+        counter: 1,
+        board: this.board,
+        allowedMoves: moves,
+        alfa: -Infinity,
+        beta: Infinity
+      });
+    // } else {
+    //   /* For black player minimise function */
+    //   return this.min({
+    //     counter: 1,
+    //     board: this.board,
+    //     allowedMoves: moves,
+    //     alfa: -Infinity,
+    //     beta: Infinity
+    //   });
+    // }
+  }
+
+  nextTurn = (): void => {
+    console.log(this.activePlayer.type);
+    switch(this.activePlayer.type) {
+      case PlayerType.Human: {
+        (this.activePlayer as HumanPlayer).onNextMove((e: Move) => {
+          this.board.movePiece(e.from, e.to);
+          this.board.drawBoard();
+          this.toggleActivePlayer();
         });
-      } else {
-        /* For black player minimise function */
-        return this.min({
-          counter: 1,
-          board: this.board,
-          allowedMoves: moves,
-          alfa: -Infinity,
-          beta: Infinity
-        });
+        break;
       }
-
-    // Testing -> as for now we need to pass color of king which will be considered to be under check
-    // const king: King = this.board.findKing(Color.Black);
-
-    // console.log(this.gameStateManager.getBoardState(this.board, king));
-  
-    return {
-      move: moves[0],
-      value: 0
+      case PlayerType.Ai: {
+        const {move: bestMove, value} = this.minimax(4);
+        console.log({bestMove});
+        this.board.movePiece(bestMove.from, bestMove.to);
+        board.move(bestMove.toChessCords());
+        this.toggleActivePlayer();
+        break;
+      }
     }
   }
 
@@ -129,7 +131,7 @@ class Game {
           move: move,
           value: 1000
         }
-      } else if(counter / 2 >= this.depth) {
+      } else if(counter >= this.depth) {
         const currentValue: number = this.calcSum(localBoard);
         /* Update only if move leads to node with better evaluation */
         if(currentValue > bestValue) {
@@ -150,7 +152,7 @@ class Game {
         alfa = Math.max(alfa, currentResult.value);
 
         if(beta <= alfa) {
-          // break;
+          break;
         }
   
         /* Update only if move leads to node with better evaluation */
@@ -203,7 +205,7 @@ class Game {
               move: move,
               value: -1000
             }
-          } else if(counter / 2 >= this.depth) {
+          } else if(counter >= this.depth) {
             /* if we reached max depth, there is still need to check all moves, but without recursive invocations.*/
             const currentValue: number = this.calcSum(localBoard);
             /* Update only if move leads to node with better evaluation */
@@ -228,7 +230,7 @@ class Game {
               beta = Math.min(beta, currentResult.value);
 
               if(beta <= alfa) {
-                // break;
+                break;
               }
       
             /* And update own best move, but only if it leads to node where enemy cant play something better than before. */

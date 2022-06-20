@@ -11,10 +11,6 @@ const playerB = new HumanPlayer(Color.Black);
 const playerA = new AiPlayer(Color.White);
 
 const game = new Game({players: [playerA, playerB]});
-game.play(fen);
-game.board.drawBoard();
-// game.board.initBoard(fen);
-
-console.log("Hello there");
-
 game.play();
+game.board.drawBoard();
+
