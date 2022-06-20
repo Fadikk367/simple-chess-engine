@@ -27,7 +27,7 @@ class Game {
 
     this.activePlayer = this.playerA.color === Color.White ? this.playerA : this.playerB;
   
-    this.depth = 2;
+    this.depth = 3;
   }
 
   get state(): GameState {
@@ -56,7 +56,7 @@ class Game {
   }
 
   minimax(depth: number): {move: Move, value: number} {
-      this.depth = 2;
+      this.depth = 1;
       const moves = this.moveGenerator.generateForColor(this.activePlayer.color);
 
       if(this.activePlayer.color === Color.White) {
@@ -64,14 +64,18 @@ class Game {
         return this.max({
           counter: 1,
           board: this.board,
-          allowedMoves: moves
+          allowedMoves: moves,
+          alfa: -Infinity,
+          beta: Infinity
         });
       } else {
         /* For black player minimise function */
         return this.min({
           counter: 1,
           board: this.board,
-          allowedMoves: moves
+          allowedMoves: moves,
+          alfa: -Infinity,
+          beta: Infinity
         });
       }
 
@@ -86,7 +90,7 @@ class Game {
     }
   }
 
-  private max({counter, board, allowedMoves}: {counter: number, board: Board, allowedMoves: Move[]}): {move: Move, value: number} {
+  private max({counter, board, allowedMoves, alfa, beta}: {counter: number, board: Board, allowedMoves: Move[], alfa: number, beta: number}): {move: Move, value: number} {
     console.log(counter);
     let bestValue: number = -1000;
     let bestMove: Move = allowedMoves[0];
@@ -105,13 +109,6 @@ class Game {
       if(whiteKingAfterMove.underCheck) {
         /* Such a move is not allowed - do not consider this move! */
         continue;
-      }
-
-      if(move.to.x === 1 && move.to.y === 5 && move.isCapture && move.from.x === 5) {
-        console.log("AHOJ!!!!");
-        console.log(blackKing);
-        console.log(state);
-        localBoard.drawBoard();
       }
 
       /* Resolve recursion if time to do so */
@@ -135,7 +132,15 @@ class Game {
         const currentResult: {move: Move, value: number} = this.min({
           counter: counter + 1,
           board: localBoard,
-          allowedMoves: localAllowedMovesForEnemy});
+          allowedMoves: localAllowedMovesForEnemy,
+          alfa,
+          beta});
+
+        alfa = Math.max(alfa, currentResult.value);
+
+        if(beta <= alfa) {
+          // break;
+        }
   
         /* Update only if move leads to node with better evaluation */
         if(currentResult.value > bestValue) {
@@ -151,7 +156,7 @@ class Game {
     }
   }
 
-  private min({counter, board, allowedMoves}: {counter: number, board: Board, allowedMoves: Move[]}): {move: Move, value: number}  {
+  private min({counter, board, allowedMoves, alfa, beta}: {counter: number, board: Board, allowedMoves: Move[], alfa: number, beta: number}): {move: Move, value: number}  {
         console.log(counter);
         /* By default some random, definitely not minimal value */
         let bestValue: number = 1000;
@@ -205,7 +210,15 @@ class Game {
             const currentResult: {move: Move, value: number} = this.max({
               counter: counter + 1,
               board: localBoard,
-              allowedMoves: localAllowedMovesForEnemy});
+              allowedMoves: localAllowedMovesForEnemy,
+              alfa,
+              beta});
+
+              beta = Math.min(beta, currentResult.value);
+
+              if(beta <= alfa) {
+                // break;
+              }
       
             /* And update own best move, but only if it leads to node where enemy cant play something better than before. */
             if(currentResult.value < bestValue) {

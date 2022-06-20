@@ -36,6 +36,7 @@ class GameStateManager {
             }
         } else if(!this.isAbleToMove(board, king, allowedMoves)) {
             /* Unable to move but without check -> stalemate ! */
+            king.underCheck = false;
             this.state = GameState.Stalemate;
         } else {
             /* King is not checked - normal state */

@@ -3,7 +3,7 @@ import Game from './core/Game';
 import AiPlayer from './core/players/AiPlayer';
 import HumanPlayer from './core/players/HumanPlayer';
 
-const fen = '8/q7/8/8/3k4/8/4Q3/2K5 w - - 0 1';
+const fen = '1nb1kbnr/pppppppp/8/4q1r1/8/5N2/PPPPPPPP/RNBQKB1R w KQk - 0 1';
 
 const playerB = new HumanPlayer(Color.Black);
 const playerA = new AiPlayer(Color.White);
