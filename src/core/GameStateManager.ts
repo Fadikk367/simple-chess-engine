@@ -27,6 +27,7 @@ class GameStateManager {
         const allowedMoves: Move[] = this.moveGenerator.generateForColor(king.color);
 
         if(this.isChecked(king, enemyMoves)) {
+            king.underCheck = true;
             this.state = GameState.Check;
 
             /* If we have inability to move, then its a checkmate! */
@@ -35,8 +36,11 @@ class GameStateManager {
             }
         } else if(!this.isAbleToMove(board, king, allowedMoves)) {
             /* Unable to move but without check -> stalemate ! */
+            king.underCheck = false;
             this.state = GameState.Stalemate;
         } else {
+            /* King is not checked - normal state */
+            king.underCheck = false;
             this.state = GameState.Default;
         }
     }

@@ -103,9 +103,10 @@ class Board {
   }
 
   findKing(color: Color): King {
-    const king = this.pieces.find(piece => piece.type === PieceType.King && piece.color === color)
+    const king = this.pieces.find(piece => piece.type === PieceType.King && piece.color === color) as King;
 
     if (!king) {
+      this.drawBoard();
       throw new Error("Unexpected situation -> king with given color not found!");
     }
 
